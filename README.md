@@ -18,7 +18,7 @@ N/A
 
 Just click the link and try the quiz for yourself:
 
-<link>
+https://the-schwiz.github.io/javascript-skill-testing-game/ 
 
 
 ## Screenshots
