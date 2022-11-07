@@ -1,17 +1,8 @@
 const timerEl = document.getElementById("timer");
 const contentEl = document.getElementById("content");
 let currentQuestionIndex;
-// const startEl = document.getElementById("start-screen")
 const headerEl = document.querySelector("#header")
-// let initials = document.getElementById("initials").value; 
 let resultText = "";
-
-// let highScores = [
-//     { 
-//         userName: initials, 
-//         score: secondsLeft, 
-//     }
-// ]
 
 const questions = [
     {
@@ -66,7 +57,6 @@ const questions = [
     },
 ];
 
-
 let scores = [];
 
 let secondsLeft = questions.length * 10;
@@ -78,13 +68,13 @@ let intervalID;
 
 function countdown() {
     timerEl.textContent = secondsLeft;
-    if(secondsLeft == 0) {
+    if (secondsLeft == 0) {
         showFinalScreen();
     }
-    secondsLeft --;
+    secondsLeft--;
 }
 
-function startTimer(){
+function startTimer() {
     // this function gets called again when restarting the game
     // re-intialize the variables
     currentQuestionIndex = 0;
@@ -93,7 +83,7 @@ function startTimer(){
     showQuestion();
 }
 
-
+// Injects ths start quiz screen on load
 function showStartScreen() {
     contentEl.innerHTML = `
         <div id="start-screen">
@@ -102,8 +92,7 @@ function showStartScreen() {
     `
 }
 
-
-// display content
+// display questions and indexes user response
 function showQuestion() {
 
     const currentQuestion = questions[currentQuestionIndex];
@@ -121,11 +110,12 @@ function showQuestion() {
         <button id="answer-btn" onClick="goToNextQuestion(3)">${currentQuestion.options[3]}</button>
         </div>
 
-        <!-- Result -->
+        <!-- Result of previous question -->
         <h3 id="result">${resultText}</h3>
     `;
 }
 
+// goes to next question on click and determines if correct or wrong. If wrong subtracts time from score
 function goToNextQuestion(optionIndex) {
     const answerIndex = questions[currentQuestionIndex].answer;
     if (optionIndex === answerIndex) {
@@ -139,15 +129,17 @@ function goToNextQuestion(optionIndex) {
 
     }
 
-    currentQuestionIndex ++;
+    // Shows next question if quiz is not finished. If finished shows final screen
+    currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
         showQuestion();
-    } else { // reached the end
+    } else {
         showFinalScreen();
     }
 }
 
-function showFinalScreen(){
+// Injects content of final screen
+function showFinalScreen() {
     timerEl.textContent = secondsLeft;
     contentEl.innerHTML = `
         <h1>All Done!</h1>
@@ -159,11 +151,11 @@ function showFinalScreen(){
     clearInterval(intervalID);
 }
 
-function addNewScore(){
-    // adds initials from inputs + seconds left as a new score
+// adds initials from inputs + seconds left as a new score to scores array
+function addNewScore() {
     const userInitials = document.getElementById("initials").value
     const newScore = {
-        initials: userInitials, 
+        initials: userInitials,
         score: secondsLeft,
     }
     scores.push(newScore);
@@ -171,14 +163,12 @@ function addNewScore(){
     viewHighScores();
 }
 
-
-function viewHighScores(){
+// Navigates to high scores screen and injects retry and clear scores buttons
+function viewHighScores() {
     contentEl.innerHTML = `
         <h1>High Scores:</h1> 
     `
     for (const userScore of scores) {
-        console.log(userScore.score);
-        console.log(userScore.initials);
         contentEl.innerHTML += `<div id="user-score">${userScore.initials}: ${userScore.score}</div>`
     }
 
@@ -194,16 +184,12 @@ function viewHighScores(){
     `
 }
 
-function clearScores(){
+// clears scores array if clicked
+function clearScores() {
     scores = [];
 }
 
 
 // initially display the first question
-// showQuestion();
 showStartScreen();
 
-  
-
-
-// startEl.setAttribute
